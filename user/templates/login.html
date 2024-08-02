@@ -1,6 +1,17 @@
 {% extends "base.html" %}
 {% block title %} {{title}} {% endblock title %}
 
+{% block messages %}    
+    {% if messages %}
+        {% for m in messages %}
+            <div class="alert alert-dismissible fade show border border-{{m.tags}}-subtle bg-{{m.tags}}-subtle" role="alert">
+                <p class="m-0">{{ m }} </p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endblock messages %}
+
 {% block body_container %}
 
 <div class="container">
@@ -9,7 +20,6 @@
         <div class="mb-3">
             <label for="email" class="form-label">Email address</label>
             <input type="email" class="form-control" id="email" aria-describedby="emailHelp" name="email">
-            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
         </div>
         <div class="mb-3">
             <label for="password" class="form-label">Password</label>

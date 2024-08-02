@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import User, auth  # type: ignore
+from django.contrib.auth.models import auth  # type: ignore
+from django.contrib.auth import get_user_model
 from django.contrib import messages
+
+User = get_user_model()
 
 
 def login(request):
@@ -29,16 +32,17 @@ def create_account(request):
         email = request.POST["email"]
         password = request.POST["passwd"]
         passd2 = request.POST["passwd2"]
-        mobile_number = request.POST["mob_no"]
+        mobile_number = request.POST["mobile_number"]
 
         if password == passd2:
-            fullname = first_name + last_name
+            name = first_name + last_name
             new_user = User.objects.create_user(
-                fullname, email, password, mobile_number # type: ignore
-            )  # type: ignore
+                                name=name, email=email, password=password, phone_number=mobile_number
+                                ) # type: ignore
+            
             new_user.save()
             messages.info(request, "Your account is created successfully.")
-            return redirect("create_acc")
+            return redirect("login")
         else:
             messages.info(request, "Password did not match.")
             return redirect("create_acc")

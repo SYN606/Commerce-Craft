@@ -92,7 +92,7 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
-
+# authorizing custom user model
 AUTH_USER_MODEL = 'user.User'
 
 # Internationalization

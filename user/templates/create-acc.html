@@ -2,49 +2,83 @@
 
 {% block title %} {{title}} {% endblock title %}
 
+{% block messages %}    
+    {% if messages %}
+        {% for m in messages %}
+            <div class="container"> 
+                <div class="alert alert-dismissible fade show border border-{{m.tags}}-subtle bg-{{m.tags}}-subtle" role="alert">
+                    <p class="m-0">{{ m }} </p>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endblock messages %}
+
+
 {% block body_container %}
 
-    <div class="container">
-        <form method="post" action="">
-            {% csrf_token %}
-            <div class="row justify-content-center">
-                <div class="col">
-                    <div class="mb-3">
-                        <label for="first_name" class="form-label">First name</label>
-                        <input type="text" class="form-control" id="first_name" name="f_name">
-                    </div>
+<div class="container">
+    <form method="post" action="{% url "create_acc" %}">
+        {% csrf_token %}
+        <div class="row justify-content-center">
+            <div class="col">
+                <div class="mb-3">
+                    <label for="first_name" class="form-label">First name</label>
+                    <input type="text" class="form-control rounded" id="first_name" name="f_name">
                 </div>
-                <div class="col">
-                    <div class="mb-3">
-                        <label for="last_name" class="form-label">Last name</label>
-                        <input type="text" class="form-control" id="last_name" name="l_name">
+            </div>
+            <div class="col">
+                <div class="mb-3">
+                    <label for="last_name" class="form-label">Last name</label>
+                    <input type="text" class="form-control rounded" id="last_name" name="l_name">
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col">
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" name="email">
+                    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+
+                </div>
+            </div>
+            <div class="col">
+                <div class="mb-3">
+                    <label for="mobile_number" class="form-label">Mobile number</label>
+                    <input type="tel" class="form-control rounded" id="mobile_number" name="mobile_number">
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col">
+                <div class="mb-3">
+                    <label for="password-field" class="form-label">Password</label>
+                    <div class="row align-items-center">
+                        <div class="col-md-10">
+                            <input id="password-field" type="password" class="form-control rounded" name="passwd">
+                        </div>
+                        <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                        <div class="col"></div>
                     </div>
                 </div>
             </div>
-            <div class="row justify-content-center">
-                <div class="col">
-                    <div class="mb-3">
-                        <label for="email" class="form-label">First name</label>
-                        <input type="email" class="form-control" id="email" name="email">
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="mb-3">
-                        <label for="mobile_number" class="form-label">Last name</label>
-                        <input type="tel" class="form-control" id="mobile_number" name="l_name">
-                    </div>
+            <div class="col">
+                <div class="mb-3">
+                    <label for="passwd" class="form-label">Retype password</label>
+                    <input type="password" class="form-control rounded" id="passwd" name="passwd2">
+                    <i class="bi bi-eye-slash" id="togglePassword"></i>
                 </div>
             </div>
-            <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword1">
-            </div>
-            <div class="mb-3 form-check">
-                <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                <label class="form-check-label" for="exampleCheck1">Check me out</label>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-    </div>
+        </div>
+
+        <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="t&c">
+            <label class="form-check-label" for="t&c"> Agree our terms and conditions. </label>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
 
 {% endblock body_container %}

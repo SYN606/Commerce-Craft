@@ -28,9 +28,9 @@
 
 <body>
 
-    {% comment %} {% block topbar %} {% endcomment %}
+    {% block topbar %}
         {% include "topbar.html" %}
-    {% comment %} {% endblock topbar %} {% endcomment %}
+    {% endblock topbar %}
     {% block navbar %}
         {% include "navbar.html" %}
     {% endblock navbar %}

@@ -18,14 +18,14 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     "jazzmin",
+    "home",
+    "user",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "home",
-    "user",
 ]
 
 MIDDLEWARE = [
@@ -123,7 +123,6 @@ else:
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# media url
+# media
+MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
-# media root
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")

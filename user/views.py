@@ -1,20 +1,21 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import auth  # type: ignore
+# from django.contrib.auth.models import auth  # type: ignore
 from django.contrib.auth import get_user_model
 from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
 
 User = get_user_model()
 
 
-def login(request):
+def login_user(request):
     data = {"title": "Login into your account"}
     if request.method == "POST":
-        username = request.POST["username"]
-        password = request.POST["password"]
-        user = auth.authenticate(username=username, password=password)
+        email = request.POST["email"]
+        password = request.POST["passwd"]
+        user = authenticate(request, email=email, password=password)
 
         if user is not None:
-            auth.login(request, user)
+            login(request, user)
             messages.success(request, "You're now logged in.")
             return redirect("homepage")
         else:
@@ -35,7 +36,7 @@ def create_account(request):
         mobile_number = request.POST["mobile_number"]
 
         if password == passd2:
-            name = first_name + last_name
+            name = first_name + ' ' + last_name
             new_user = User.objects.create_user(
                                 name=name, email=email, password=password, phone_number=mobile_number
                                 ) # type: ignore
@@ -48,3 +49,16 @@ def create_account(request):
             return redirect("create_acc")
     else:
         return render(request, "create-acc.html", data)
+
+def logout_user(request):
+    logout(request)
+    return redirect("homepage")
+
+def profile_update(request):
+    pass
+
+def delete_account(request):
+    pass
+
+def add_address(request):
+    pass

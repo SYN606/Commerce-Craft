@@ -3,15 +3,6 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 
-class Address(models.Model):
-    landmark = models.CharField(max_length=255, blank=True, null=False)
-    house_number = models.CharField(max_length=255, blank=True, null=False)
-    area = models.CharField(max_length=255, blank=False, null=False)
-    pincode = models.IntegerField()
-    district = models.CharField(max_length=255, blank=False, null=False)
-    state = models.CharField(max_length=255, blank=False, null=False)
-
-
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
         if not email:
@@ -34,6 +25,25 @@ class CustomUserManager(BaseUserManager):
         return self.create_user(email, password, **extra_fields)
 
 
+class Address(models.Model):
+    landmark = models.CharField(max_length=255, blank=True, null=False)
+    house_number = models.CharField(max_length=255, blank=True, null=False)
+    area = models.CharField(max_length=255, blank=False, null=False)
+    pincode = models.IntegerField()
+    district = models.CharField(max_length=255, blank=False, null=False)
+    state = models.CharField(max_length=255, blank=False, null=False)
+
+
+class Profile(models.Model):
+    avatar = models.ImageField(
+        upload_to="profile_avatars",
+    )
+    gender = models.CharField(max_length=10)
+    address = models.OneToOneField(
+        Address, on_delete=models.CASCADE, blank=True, null=True
+    )
+
+
 class User(AbstractUser):
     username = None
     first_name = None
@@ -41,7 +51,9 @@ class User(AbstractUser):
     email = models.EmailField(unique=True)
     name = models.CharField(max_length=255, blank=True, null=False)
     phone_number = models.CharField(max_length=15, blank=True, null=True)
-    address = models.OneToOneField(Address, on_delete=models.CASCADE, blank=True, null=True)
+    user_profile = models.OneToOneField(
+        Profile, on_delete=models.CASCADE, blank=True, null=True
+    )
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["name"]
 

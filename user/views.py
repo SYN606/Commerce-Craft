@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
+
 # from django.contrib.auth.models import auth  # type: ignore
 from django.contrib.auth import get_user_model
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from .models import Profile
 
 User = get_user_model()
 
@@ -31,16 +33,17 @@ def create_account(request):
         first_name = request.POST["f_name"]
         last_name = request.POST["l_name"]
         email = request.POST["email"]
+        username = request.POST['username']
         password = request.POST["passwd"]
         passd2 = request.POST["passwd2"]
         mobile_number = request.POST["mobile_number"]
 
         if password == passd2:
-            name = first_name + ' ' + last_name
+            name = first_name + " " + last_name
             new_user = User.objects.create_user(
-                                name=name, email=email, password=password, phone_number=mobile_number
-                                ) # type: ignore
-            
+                name=name, email=email, password=password, phone_number=mobile_number, username=username
+            )  # type: ignore
+
             new_user.save()
             messages.info(request, "Your account is created successfully.")
             return redirect("login")
@@ -50,15 +53,38 @@ def create_account(request):
     else:
         return render(request, "create-acc.html", data)
 
+
 def logout_user(request):
     logout(request)
     return redirect("homepage")
 
-def profile_update(request):
-    pass
+
+def view_profile(request, username):
+    user = User.objects.get(username=username)
+    user_profile = Profile.objects.filter(user=user)
+
+    data = {
+        "user_details": user,
+        "user_profile": user_profile,
+    }
+
+    return render(request, "user_profile.html", data)
+
+
+def profile_update(request, username):
+    data = {
+        'title' : 'Update users profile'
+    }
+    if request.method == 'POST':
+        pass
+    else:
+        return render(request, 'update-user.html', data)
+
+
 
 def delete_account(request):
     pass
+
 
 def add_address(request):
     pass

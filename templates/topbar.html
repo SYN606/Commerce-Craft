@@ -15,7 +15,7 @@
                     {% if user.is_authenticated %}
                         <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">Hello {{user.name}}</button>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <button class="dropdown-item" type="button"><a href="">Your Account</a> </button> 
+                            <button class="dropdown-item" type="button"><a href="{% url "profile" user.username %}">Your Account</a> </button> 
                             <button class="dropdown-item" type="button"><a href="{% url "logout" %}">Logout</a> </button> 
                         </div>
                     {% else %}

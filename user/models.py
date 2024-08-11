@@ -33,19 +33,20 @@ class Address(models.Model):
     district = models.CharField(max_length=255, blank=False, null=False)
     state = models.CharField(max_length=255, blank=False, null=False)
 
+    def __str__(self) -> str:
+        return self.area + self.district + self.pincode # type: ignore
 
 class Profile(models.Model):
     avatar = models.ImageField(
         upload_to="profile_avatars",
     )
-    gender = models.CharField(max_length=10)
+    gender = models.CharField(max_length=10, blank=True, null=True)
     address = models.OneToOneField(
         Address, on_delete=models.CASCADE, blank=True, null=True
     )
-
+    
 
 class User(AbstractUser):
-    username = None
     first_name = None
     last_name = None
     email = models.EmailField(unique=True)

@@ -56,7 +56,7 @@ class User(AbstractUser):
         Profile, on_delete=models.CASCADE, blank=True, null=True
     )
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["name"]
+    REQUIRED_FIELDS = ["name","username"]
 
     objects = CustomUserManager()  # type: ignore
 

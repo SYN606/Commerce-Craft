@@ -33,20 +33,31 @@ def create_account(request):
         first_name = request.POST["f_name"]
         last_name = request.POST["l_name"]
         email = request.POST["email"]
-        username = request.POST['username']
+        username = request.POST["username"]
         password = request.POST["passwd"]
         passd2 = request.POST["passwd2"]
         mobile_number = request.POST["mobile_number"]
 
         if password == passd2:
-            name = first_name + " " + last_name
-            new_user = User.objects.create_user(
-                name=name, email=email, password=password, phone_number=mobile_number, username=username
-            )  # type: ignore
+            if User.objects.filter(username=username).exists():
+                messages.info(request, f"{username} is already taken.")
+                return redirect("create_acc")
+            elif User.objects.filter(email=email).exists():
+                messages.info(request, f"{email} is already taken.")
+                return redirect("create_acc")
+            else:
+                name = first_name + " " + last_name
+                new_user = User.objects.create_user(
+                    name=name,
+                    email=email,
+                    password=password,
+                    phone_number=mobile_number,
+                    username=username,
+                )
 
-            new_user.save()
-            messages.info(request, "Your account is created successfully.")
-            return redirect("login")
+                new_user.save()
+                messages.info(request, "Your account is created successfully.")
+                return redirect("login")
         else:
             messages.info(request, "Password did not match.")
             return redirect("create_acc")
@@ -72,14 +83,11 @@ def view_profile(request, username):
 
 
 def profile_update(request, username):
-    data = {
-        'title' : 'Update users profile'
-    }
-    if request.method == 'POST':
+    data = {"title": "Update users profile"}
+    if request.method == "POST":
         pass
     else:
-        return render(request, 'update-user.html', data)
-
+        return render(request, "update-user.html", data)
 
 
 def delete_account(request):
